@@ -31,15 +31,15 @@ autoencoder.summary()
 
 
 # Train
-autoencoder.fit(x_train, x_train, epochs=1, batch_size=64, shuffle=True, validation_data=(x_test, x_test))
+if False:
+    autoencoder.fit(x_train, x_train, epochs=1, batch_size=64, shuffle=True, validation_data=(x_test, x_test))
+else:
+    autoencoder = models.load_model(cfg.CONVOLUTIONAL_MODEL_PATH)
 
-autoencoder.save(cfg.CONVOLUTIONAL_MODEL_PATH)
+test_image = x_test[0]
 
-def test_model(model: models.Model, image: np.ndarray):
-    decoded_image = model.predict(image)
-    return decoded_image
+print(test_image.shape)
 
-decoded_image = test_model(autoencoder, x_test[0])
-
+decoded_image = autoencoder.predict(s.flatten(test_image))
 s.sv(img=decoded_image[0], label="Conv-Decoded", filename= cfg.OUTPUT_FOLDER / "conv_decoded.png")
-s.sv(img=x_test[0], label="Original", filename= cfg.OUTPUT_FOLDER / "conv_original.png")
+s.sv(img=test_image, label="Original", filename= cfg.OUTPUT_FOLDER / "conv_original.png")
