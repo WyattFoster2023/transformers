@@ -27,4 +27,10 @@
 
 1. `source .venv/bin/activate`
 
-1. 
+
+
+# Goal and Reqs
+
+1. Be able to try different archtectures
+
+2. 
