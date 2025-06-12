@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
 
-def sv(img, label="test", filename="test.png"):
+def sv(img, label="test", filename: Path = Path("test.png")):
     """
     Save an image to a file
     """
@@ -9,6 +10,7 @@ def sv(img, label="test", filename="test.png"):
     plt.title("Label: {}".format(label))
     plt.axis('off')
     plt.savefig(filename)
+    print("Saved image to", filename)
     plt.close()
 
 def flatten(img):
