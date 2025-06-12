@@ -4,6 +4,7 @@ import numpy as np
 
 import config as cfg
 import scripts as s
+import train_test as tt
 
 (x_train, _), (x_test, _) = cifar10.load_data()
 x_train = x_train.astype("float32") / 255.0
@@ -24,22 +25,19 @@ x = layers.Conv2D(32, (3, 3), activation='relu', padding='same')(x)
 x = layers.UpSampling2D((2, 2))(x)
 decoded = layers.Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
 
-autoencoder = models.Model(input_img, decoded)
+autoencoder = models.Model(input_img, decoded, name="Conv-Autoencoder")
 autoencoder.compile(optimizer='adam', loss='mse')
 
 autoencoder.summary()
 
+tt.train_epoch_series(
+    autoencoder, 
+    x_train, 
+    x_test[0:2], 
+    epochs=3
+)
 
-# Train
-if False:
-    autoencoder.fit(x_train, x_train, epochs=1, batch_size=64, shuffle=True, validation_data=(x_test, x_test))
-else:
-    autoencoder = models.load_model(cfg.CONVOLUTIONAL_MODEL_PATH)
 
-test_image = x_test[0]
 
-print(test_image.shape)
 
-decoded_image = autoencoder.predict(s.flatten(test_image))
-s.sv(img=decoded_image[0], label="Conv-Decoded", filename= cfg.OUTPUT_FOLDER / "conv_decoded.png")
-s.sv(img=test_image, label="Original", filename= cfg.OUTPUT_FOLDER / "conv_original.png")
+

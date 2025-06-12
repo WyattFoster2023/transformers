@@ -11,6 +11,3 @@ ROOT_FOLDER = Path("autoencoder")
 
 MODEL_FOLDER = force(ROOT_FOLDER / "models")
 OUTPUT_FOLDER = force(ROOT_FOLDER / "output")
-
-DENSE_MODEL_PATH = MODEL_FOLDER / "dense_autoencoder_model.keras"
-CONVOLUTIONAL_MODEL_PATH = MODEL_FOLDER / "convolutional_autoencoder_model.keras"
